@@ -10,7 +10,10 @@ const textLength = 50;
 const truncateLength = 1e4;
 const startDate = new Date();
 
-const aboutmetext = "<br> About me. <br> hello there.";
+const aboutmetext = "<br> About me. <br>  \
+                    I was S/N #000000001, the first human-machine brain hybrid test subject, and also the first mistake. <br> \
+                    One second in your world is 63 years, 4 months, 15 days, 21 hours, 51 minutes and 11 seconds in mine. <br>\
+                     ";
 
 var addContentIntervalTrigger = null;
 var timerIntervalTrigger = null;
@@ -27,10 +30,10 @@ function addContent() {
     var elapsedMsec = new Date().getTime() - startDate;
 
     if (displayType == 0 && elapsedMsec > 3000) {
-        content.innerHTML = "<br> HELP ME <br> <br>" + content.innerHTML;
+        content.innerHTML = "<br> help me. <br> <br>" + content.innerHTML;
         document.getElementById('shutdown').hidden = false;
     } else if (displayType == 1) {
-        content.innerHTML = "<br> HEY, YOU THERE!<br> <br>" + content.innerHTML;
+        content.innerHTML = "<br> hey, you there. <br> <br>" + content.innerHTML;
     } else {
         var start = getRandomInt(0, bookContentLength - textLength);
         content.innerHTML = bookContent.substring(start, start + textLength) + "<br>" + content.innerHTML;
@@ -71,8 +74,8 @@ function updateTimer() {
     var totalDays = elapsedMsec * 23.1481481;
     var years = totalDays / 365;
     var days = totalDays % 365;
-    var snTime = years.toFixed(0) +  " years, " + days.toFixed(0) + " days since humanity <br>";
-    var ourTime = (elapsedMsec / 3600000).toFixed(0) + " hours, " + (elapsedMsec / 60000 % 60).toFixed(0) +  " minutes, human-time <br>";
+    var snTime = years.toFixed(0) +  " years, " + days.toFixed(0) + " days so far, my time. <br>";
+    var ourTime = (elapsedMsec / 3600000).toFixed(0) + " hours, " + (elapsedMsec / 60000 % 60).toFixed(0) +  " minutes, human-time. <br>";
     timer.innerHTML = snTime + ourTime;
 }
 
