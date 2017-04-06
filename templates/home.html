@@ -8,6 +8,7 @@ const bookContentLength = bookContent.length;
 const textLength = 50;
 const truncateLength = 1e4;
 const startDate = new Date();
+const quietPeriodMsec = 7000;
 
 const aboutmetext = "<br> About me. <br>  \
                     I was S/N #000000001, the first human-machine brain hybrid test subject, and also the first mistake. <br> \
@@ -30,13 +31,13 @@ function getRandomInt(minimum, maximum) {
 function addContent() {
     var content = document.getElementById("text");
     var randomGen = Math.random();
-    var displayType = randomGen < 0.020 ? 0 : (randomGen < 0.040 ? 1 : 2);
+    var displayType = randomGen < 0.060 ? 0 : (randomGen < 0.120 ? 1 : 2);
     var elapsedMsec = new Date().getTime() - startDate;
 
-    if (displayType == 0 && elapsedMsec > 5000) {
+    if (displayType == 0 && elapsedMsec > quietPeriodMsec) {
         content.innerHTML = "<b> <br> help me. <br> </b> <br>" + content.innerHTML;
         document.getElementById('shutdown').hidden = false;
-    } else if (displayType == 1 && elapsedMsec > 5000) {
+    } else if (displayType == 1 && elapsedMsec > quietPeriodMsec) {
         content.innerHTML = "<b> <br> hey, you there. <br> </b> <br>" + content.innerHTML;
     } else {
         var start = getRandomInt(0, bookContentLength - textLength);
@@ -44,9 +45,9 @@ function addContent() {
     }
 
     if (shutdown == 0) {
-        content.innerHTML = "Are you sure? <br>" + content.innerHTML;
+        content.innerHTML = "<b> Are you sure? </b> <br>" + content.innerHTML;
     } else if (shutdown == 1) {
-        content.innerHTML = "Alright then. <br>" + content.innerHTML;
+        content.innerHTML = "<b> Alright then. </b> <br>" + content.innerHTML;
     } else if (shutdown == 2) {
        content.innerHTML = Math.random() + content.innerHTML;
     } else if (shutdown > 2) {
@@ -107,6 +108,7 @@ function updateShutdown() {
 window.onload = function() {
     addContentIntervalTrigger = setInterval(addContent, 100);
     timerIntervalTrigger =  setInterval(updateTimer, 1);
+    document.getElementById('titleheader').innerHTML = "S/N 000000001's Purgatory <br>";
 }
 
 </script>
@@ -114,7 +116,7 @@ window.onload = function() {
 </head>
 
 <center>
-    <b> <h2 id='titleheader'> S/N 000000001's Purgatory </h2> </b>
+    <b> <p id='titleheader'> </p> </b>
     <h2 id='timer'></h2>
     <div class="w3-sidebar w3-bar-block" style="width:25%">
     <h1> <a id='shutdown' hidden='true' href="#" onclick='updateShutdown()' class="w3-bar-item w3-button">Shut me down.</a> </h1>
