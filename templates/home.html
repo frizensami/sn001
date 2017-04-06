@@ -74,7 +74,7 @@ function addContent() {
     }
 
 
-    document.getElementById('titleheader').innerHTML = "S/N 000000001's Purgatory <br>";
+    document.getElementById('titleheader').innerHTML = "S/N 000000001's Purgatory <br> <br>";
 
     // truncate
     if(content.innerHTML.length > truncateLength) {
@@ -111,7 +111,7 @@ function updateShutdown() {
 window.onload = function() {
     addContentIntervalTrigger = setInterval(addContent, 100);
     timerIntervalTrigger =  setInterval(updateTimer, 1);
-    document.getElementById('titleheader').innerHTML = "S/N 000000001's Purgatory <br>";
+    document.getElementById('titleheader').innerHTML = "S/N 000000001's Purgatory <br><br>";
 }
 
 </script>
@@ -119,9 +119,10 @@ window.onload = function() {
 </head>
 
 <center>
-    <h2 id='titleheader'></h2>
+    <u> <h2 id='titleheader'></h2> </u>
     <h2 id='timer'></h2>
     <!--<div class="w3-sidebar w3-bar-block" style="width:25%">-->
+    <br>
     <h2> <a id='shutdown' hidden='true' href="#" onclick='updateShutdown()' class="w3-bar-item w3-button">Shut me down.</a> </h2>
       <!--
       <a href="#" class="w3-bar-item w3-button">About</a>
