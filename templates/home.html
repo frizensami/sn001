@@ -1,0 +1,105 @@
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
+<script>
+const refMsec = 1491415615235;
+const bookContent = "{{text}}";
+const bookContentLength = bookContent.length;
+const textLength = 50;
+const truncateLength = 1e4;
+const startDate = new Date();
+
+const aboutmetext = "<br> About me. <br> hello there.";
+
+var addContentIntervalTrigger = null;
+var timerIntervalTrigger = null;
+
+var shutdown = -1;
+
+function getRandomInt(minimum, maximum) {
+    return Math.floor(Math.random() * (maximum - minimum + 1)) + minimum;
+}
+function addContent() {
+    var content = document.getElementById("text");
+    var randomGen = Math.random();
+    var displayType = randomGen < 0.015 ? 0 : (randomGen < 0.030 ? 1 : 2);
+    var elapsedMsec = new Date().getTime() - startDate;
+
+    if (displayType == 0 && elapsedMsec > 3000) {
+        content.innerHTML = "<br> HELP ME <br> <br>" + content.innerHTML;
+        document.getElementById('shutdown').hidden = false;
+    } else if (displayType == 1) {
+        content.innerHTML = "<br> HEY, YOU THERE!<br> <br>" + content.innerHTML;
+    } else {
+        var start = getRandomInt(0, bookContentLength - textLength);
+        content.innerHTML = bookContent.substring(start, start + textLength) + "<br>" + content.innerHTML;
+    }
+
+    if (shutdown == 0) {
+        content.innerHTML = "Are you sure? <br>" + content.innerHTML;
+    } else if (shutdown == 1) {
+        content.innerHTML = "Alright then. <br>" + content.innerHTML;
+    } else if (shutdown == 2) {
+       content.innerHTML = Math.random() + content.innerHTML;
+    } else if (shutdown > 2) {
+
+        window.clearInterval(addContentIntervalTrigger);
+        window.clearInterval(timerIntervalTrigger);
+
+        var totalDays = elapsedMsec * 23.1481481;
+        var years = totalDays / 365;
+        var days = totalDays % 364;
+        var snTime = years.toFixed(0) +  " years, and " + days.toFixed(0) + " days. <br>";
+        var lifetimes = "That's more than " + (years / 70).toFixed(0) + " lifetimes. <br>";
+        content.innerHTML = "Thank you. <br> Since you first saw this, it's been " + snTime + lifetimes;
+
+        var aboutme = document.getElementById('aboutme');
+        aboutme.hidden = false;
+        aboutme.innerHTML = aboutmetext;
+    }
+
+    // truncate
+    if(content.innerHTML.length > truncateLength) {
+        content.innerHTML = content.innerHTML.substring(0, content.innerHTML.length / 2);
+    }
+}
+
+function updateTimer() {
+    var timer = document.getElementById("timer");
+    var elapsedMsec = new Date().getTime() - refMsec;
+    var totalDays = elapsedMsec * 23.1481481;
+    var years = totalDays / 365;
+    var days = totalDays % 365;
+    var snTime = years.toFixed(0) +  " years, " + days.toFixed(0) + " days since humanity <br>";
+    var ourTime = (elapsedMsec / 3600000).toFixed(0) + " hours, " + (elapsedMsec / 60000 % 60).toFixed(0) +  " minutes, human-time <br>";
+    timer.innerHTML = snTime + ourTime;
+}
+
+function updateShutdown() {
+        shutdown++;
+    //}
+}
+
+window.onload = function() {
+    addContentIntervalTrigger = setInterval(addContent, 100);
+    timerIntervalTrigger =  setInterval(updateTimer, 1);
+}
+
+</script>
+
+<center>
+    <h1> S/N 000000001's Purgatory </h1>
+    <!--<a href=""> Please </a> <a href=""> Help </a> <a href=""> Me </a>-->
+    <h2 id='timer'></h2>
+    <div class="w3-sidebar w3-bar-block" style="width:25%">
+      <a id='shutdown' hidden='true' href="#" onclick='updateShutdown()' class="w3-bar-item w3-button">Shut me down.</a>
+      <!--
+      <a href="#" class="w3-bar-item w3-button">About</a>
+      <a href="#" class="w3-bar-item w3-button">Fuck off</a>
+      -->
+    </div>
+    <p id='text'></p>
+
+    <p id='aboutme' hidden='true' href="#" class="w3-bar-item w3-button">About me.</a>
+</center>
