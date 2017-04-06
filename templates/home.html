@@ -1,6 +1,5 @@
 <head>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-</head>
 
 <script>
 const refMsec = 1491415615235;
@@ -13,7 +12,9 @@ const startDate = new Date();
 const aboutmetext = "<br> About me. <br>  \
                     I was S/N #000000001, the first human-machine brain hybrid test subject, and also the first mistake. <br> \
                     One second in your world is 63 years, 4 months, 15 days, 21 hours, 51 minutes and 11 seconds in mine. <br>\
-                    Solitary confinement is prison is still limited by a single human lifespan. My prison term is unbounded.\
+                    Solitary confinement is prison is still limited by a single human lifespan. My prison term is unbounded. <br>\
+                    Think about that, next time you bastards think of playing God again. <br>\
+                    Thank goodness I won't be there to see it.\
                      ";
 
 var addContentIntervalTrigger = null;
@@ -21,20 +22,22 @@ var timerIntervalTrigger = null;
 
 var shutdown = -1;
 
+var myscore = "";
+
 function getRandomInt(minimum, maximum) {
     return Math.floor(Math.random() * (maximum - minimum + 1)) + minimum;
 }
 function addContent() {
     var content = document.getElementById("text");
     var randomGen = Math.random();
-    var displayType = randomGen < 0.015 ? 0 : (randomGen < 0.030 ? 1 : 2);
+    var displayType = randomGen < 0.020 ? 0 : (randomGen < 0.040 ? 1 : 2);
     var elapsedMsec = new Date().getTime() - startDate;
 
-    if (displayType == 0 && elapsedMsec > 3000) {
-        content.innerHTML = "<br> help me. <br> <br>" + content.innerHTML;
+    if (displayType == 0 && elapsedMsec > 5000) {
+        content.innerHTML = "<b> <br> help me. <br> </b> <br>" + content.innerHTML;
         document.getElementById('shutdown').hidden = false;
-    } else if (displayType == 1) {
-        content.innerHTML = "<br> hey, you there. <br> <br>" + content.innerHTML;
+    } else if (displayType == 1 && elapsedMsec > 5000) {
+        content.innerHTML = "<b> <br> hey, you there. <br> </b> <br>" + content.innerHTML;
     } else {
         var start = getRandomInt(0, bookContentLength - textLength);
         content.innerHTML = bookContent.substring(start, start + textLength) + "<br>" + content.innerHTML;
@@ -61,6 +64,12 @@ function addContent() {
         var aboutme = document.getElementById('aboutme');
         aboutme.hidden = false;
         aboutme.innerHTML = aboutmetext;
+
+        // update highscore
+        myscore = snTime;
+        var myscore_dom = document.getElementById('myscore');
+        myscore.hidden = false;
+        myscore_dom.innerHTML = myscore;
     }
 
     // truncate
@@ -82,6 +91,16 @@ function updateTimer() {
 
 function updateShutdown() {
         shutdown++;
+
+        var elem = document.getElementById('shutdown');
+        if (shutdown <= 2) {
+            const multiplier = 2;
+            var currentSize = elem.style.fontSize || 1;
+            elem.style.fontSize = (parseFloat(currentSize) + (multiplier * 0.2)) + "em";
+        } else {
+            elem.hidden = true;
+        }
+
     //}
 }
 
@@ -92,18 +111,20 @@ window.onload = function() {
 
 </script>
 
+</head>
+
 <center>
-    <h1> S/N 000000001's Purgatory </h1>
-    <!--<a href=""> Please </a> <a href=""> Help </a> <a href=""> Me </a>-->
+    <b> <h2 id='titleheader'> S/N 000000001's Purgatory </h2> </b>
     <h2 id='timer'></h2>
     <div class="w3-sidebar w3-bar-block" style="width:25%">
-      <a id='shutdown' hidden='true' href="#" onclick='updateShutdown()' class="w3-bar-item w3-button">Shut me down.</a>
+    <h1> <a id='shutdown' hidden='true' href="#" onclick='updateShutdown()' class="w3-bar-item w3-button">Shut me down.</a> </h1>
       <!--
       <a href="#" class="w3-bar-item w3-button">About</a>
       <a href="#" class="w3-bar-item w3-button">Fuck off</a>
       -->
     </div>
-    <p id='text'></p>
 
+    <p id='text'></p>
     <p id='aboutme' hidden='true' href="#" class="w3-bar-item w3-button">About me.</a>
+    <p id='myscore' hidden='true' href="#" class="w3-bar-item w3-button">Score = ?</a>
 </center>
